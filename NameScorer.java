@@ -5,12 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-
-// I need to sort the names in alphabetical order, then make them Name objects (which calculates their base scores), then multiply their scores by their position
-
 class Name{
 	
-	int baseScore = 0; //score before being multiplied by position within the list\
+	int baseScore = 0; //score before being multiplied by position within the list
 	int adjustedScore = 0; //will be calculated after initialization
 	String nameString;
 	public static DecimalFormat df2 = new DecimalFormat( "#,###,###,###");
@@ -74,12 +71,11 @@ public class NameScorer extends Name{
 			System.out.print(e);
 		}
 		while(reader.hasNext()){
-			nameList.add(reader.next());
+			nameList.add(reader.next()); // populates nameList
 		}
-		String[] nameArray = nameList.toArray(new String[nameList.size()]);
+		String[] nameArray = nameList.toArray(new String[nameList.size()]); // used an ArrayList to allow for input without needing to know size of list, then converted to array once done populating said ArrayList
 		
-		System.out.println();
-		System.out.println("Received list of unsorted names: " + Arrays.toString(nameArray)); // print list of names to make sure it was interpreted correctly
+		System.out.println("\nReceived list of unsorted names: " + Arrays.toString(nameArray)); // print list of names to make sure it was interpreted correctly
 		sortStringBubble(nameArray);
 		System.out.println("Alphabetically sorted list of names: " + Arrays.toString(nameArray)); // print sorted list to make sure it was sorted correctly
 		
@@ -91,11 +87,13 @@ public class NameScorer extends Name{
 		highestScoreIndex = findHighestScore(scoresList);
 		lowestScoreIndex = findLowestScore(scoresList);
 		printResults(nameArray, highestScoreIndex, lowestScoreIndex, scoresList);
+		
 	}
 	private static void printResults(String[] givenNameArray, int givenHighestScoreIndex, int givenLowestScoreIndex, Name[] givenScoresList){
-		System.out.println("\nThe highest scoring name was " + givenNameArray[givenHighestScoreIndex] + " (" + df2.format(givenScoresList[givenHighestScoreIndex].getAdjustedScore()) + " points) at position " + (givenHighestScoreIndex+1) + " out of " + givenNameArray.length + " names.");
-		System.out.println("\nThe lowest scoring name was " + givenNameArray[givenLowestScoreIndex] + " (" + df2.format(givenScoresList[givenLowestScoreIndex].getAdjustedScore()) + " points) at position " + (givenLowestScoreIndex+1) + " out of " + givenNameArray.length + " names.");
-		System.out.println("\nThe average name score was " + df2.format(getScoreAverage(givenScoresList)) + " points.");
+		System.out.println("\nThe highest scoring name is " + givenNameArray[givenHighestScoreIndex] + " (" + df2.format(givenScoresList[givenHighestScoreIndex].getAdjustedScore()) + " points) at position " + (givenHighestScoreIndex+1) + " out of " + givenNameArray.length + " names.");
+		System.out.println("\nThe lowest scoring name is " + givenNameArray[givenLowestScoreIndex] + " (" + df2.format(givenScoresList[givenLowestScoreIndex].getAdjustedScore()) + " points) at position " + (givenLowestScoreIndex+1) + " out of " + givenNameArray.length + " names.");
+		System.out.println("\nThe average name score is " + df2.format(getScoreAverage(givenScoresList)) + " points.");
+		System.out.println("\nThe total score of all names is: " + df2.format(getTotalScore(givenScoresList)) + " points.");
 	}
 	private static void fillScoreList(Name[] givenScoresList, String[] givenNameArray){
 		for(int i = 0; i < givenNameArray.length; i++){
@@ -137,5 +135,12 @@ public class NameScorer extends Name{
 			totalScore += givenScoresList[i].getAdjustedScore();
 		}
 		return totalScore/givenScoresList.length;
+	}
+	private static int getTotalScore(Name[] givenScoresList){
+		int totalScore = 0;
+		for(int i = 0; i < givenScoresList.length; i++){
+			totalScore += givenScoresList[i].getAdjustedScore();
+		}
+		return totalScore;
 	}
 }

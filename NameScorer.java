@@ -10,7 +10,7 @@ class Name{
 	int baseScore = 0; //score before being multiplied by position within the list
 	int adjustedScore = 0; //will be calculated after initialization
 	String nameString;
-	public static DecimalFormat df2 = new DecimalFormat( "#,###,###,###");
+	public static DecimalFormat df2 = new DecimalFormat( "#,###,###,###.#####################");
 	
 	public Name(){}
 	public Name(String givenName){
@@ -44,11 +44,8 @@ class Name{
 	public String getName(){
 		return nameString;
 	}
-	public int getBaseScore(){
-		return baseScore;
-	}
 	public void setAdjustedScore(int position){
-		adjustedScore = (position) * baseScore;
+		adjustedScore = (position+1) * baseScore;
 	}
 	public int getAdjustedScore(){
 		return adjustedScore;
@@ -103,7 +100,7 @@ public class NameScorer extends Name{
 	}
 	private static void adjustScores(Name[] givenScoresList){
 		for(int i = 0; i < givenScoresList.length; i++){
-			givenScoresList[i].setAdjustedScore(i+1); // the "plus one" is because positions are offset. the "0" position is actually the 1st, the "1" position is actually the 2nd, and so on
+			givenScoresList[i].setAdjustedScore(i); // the "plus one" is because positions are offset. the "0" position is actually the 1st, the "1" position is actually the 2nd, and so on
 		}
 	}
 	private static int findHighestScore(Name[] givenScoresList){
@@ -129,8 +126,8 @@ public class NameScorer extends Name{
 		}
 		return lowestScoreIndex;
 	}
-	private static int getScoreAverage(Name[] givenScoresList){
-		int totalScore = 0;
+	private static double getScoreAverage(Name[] givenScoresList){
+		double totalScore = 0;
 		for(int i = 0; i < givenScoresList.length; i++){
 			totalScore += givenScoresList[i].getAdjustedScore();
 		}
